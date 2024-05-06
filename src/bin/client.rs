@@ -1,6 +1,7 @@
 use futures_util::stream::StreamExt;
 use futures_util::SinkExt;
 use http::Uri;
+use gethostname::gethostname;
 use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio_websockets::{ClientBuilder, Message};
 
@@ -14,6 +15,8 @@ async fn main() -> Result<(), tokio_websockets::Error> {
     let stdin = tokio::io::stdin();
     let mut stdin = BufReader::new(stdin).lines();
 
+    let hostname = gethostname().into_string().unwrap_or_else(|_| "unknown".to_string());
+
     // Continuous loop for concurrently sending and receiving messages.
     loop {
         tokio::select! {
@@ -21,7 +24,7 @@ async fn main() -> Result<(), tokio_websockets::Error> {
                 match incoming {
                     Some(Ok(msg)) => {
                         if let Some(text) = msg.as_text() {
-                            println!("From server: {}", text);
+                            println!("{}'s computer - From server: {}", hostname, text);
                         }
                     },
                     Some(Err(err)) => return Err(err.into()),

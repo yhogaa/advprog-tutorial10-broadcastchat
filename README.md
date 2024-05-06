@@ -25,4 +25,8 @@ let listener = TcpListener::bind("127.0.0.1:8080").await?;
     println!("listening on port 8080");
 ...
 ```
-Keduanya harusmemiliki port yang sama jika berbeda maka akan terjadi error karena client tidak bisa menemukan port yang tepat.
+Keduanya harus memiliki port yang sama jika berbeda maka akan terjadi error karena client tidak bisa menemukan port yang tepat.
+
+## 2.3. Small changes. Add some information to client
+![2.3](assets/img/2.3.jpg)
+Berdasarkan gambar diatas, disini saya menambahkan dependency baru yaitu `gethostname` untuk mendapatkan informasi pada setiap client dengan memberikan nama host dari nama komputer saya (MSI's computer). Dengan begini saya tahu dari device mana yang mengirimkan message nya.
